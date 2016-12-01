@@ -16,7 +16,7 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 
 #position vars
-x_pos = 100
+x_pos = 50
 y_pos = 200
 bg_x = 0
 bg_y = 0
@@ -35,18 +35,18 @@ class Buckeye(Sprite):
         self.image = image.load('buckeye.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.velocity = randint(1, 3)
-        randX = randint(130, 1270)
+        randX = randint(200, 1400)
         randY = randint(10, 790)
         self.rect.center = (randX,randY)
 
 
     def reset(self):
-    	self.velocity = randint(1, 2)
-    	randX = randint(130, 1270)
+    	self.velocity = randint(1, 3)
+    	randX = randint(200, 1400)
     	randY = randint(10, 790)
     	self.rect.center = (randX,randY)
-    	scoretext = gamefont.render("Player Score: " + str(score), False, [215, 209, 39])
-    	gameDisplay.blit(scoretext, (565, 20))
+    	# scoretext = gamefont.render("Player Score: " + str(score), False, [215, 209, 39])
+    	# gameDisplay.blit(scoretext, (565, 20))
     
 
     # move gold to a new random location
@@ -69,7 +69,7 @@ class Player(Sprite):
   		Sprite.__init__(self)
   		self.image = image.load('harbaugh.png').convert_alpha()
   		self.rect = self.image.get_rect()
-  		self.rect.center = (x_pos, y_pos)
+  		self.rect.center = (50, 200)
 
 	def move(self):
 		global x_pos
@@ -82,10 +82,25 @@ class Player(Sprite):
 			y_pos -= 20
 		if e.key == pygame.K_DOWN:
 			y_pos += 20
+		if y_pos <= 50:
+			y_pos = 50
+		if y_pos >= 750:
+			y_pos = 750
+		if x_pos <= 25:
+			x_pos = 25
+		if x_pos >= 1375:
+			x_pos = 1375
 		self.rect.center = (x_pos, y_pos)
 
-	def hit(self, target):
-		return self.rect.colliderect(target)
+	# def hit(self, target):
+	# 	return pygame.sprite.spritecollide(self, target, False)
+
+	def reset(self):
+		global x_pos
+		global y_pos
+		x_pos = 50
+		y_pos = 200
+		self.rect.center = (x_pos, y_pos)
 
 # class Touchdown(Sprite):
 # 	def __init__(self):
@@ -110,6 +125,7 @@ pygame.mixer.music.load("crowd.wav")
 pygame.mixer.music.play(-1, 0.0)
 
 score = 0
+oppscore = 0
 down = 0
 
 
@@ -128,11 +144,28 @@ b7 = Buckeye()
 b8 = Buckeye()
 b9 = Buckeye()
 b10 = Buckeye()
+b11 = Buckeye()
+b12 = Buckeye()
+b13 = Buckeye()
+b14 = Buckeye()
+b15 = Buckeye()
+b16 = Buckeye()
+b17 = Buckeye()
+b18 = Buckeye()
+b19 = Buckeye()
+b20 = Buckeye()
+b21 = Buckeye()
+b22 = Buckeye()
+b23 = Buckeye()
+b24 = Buckeye()
+b25 = Buckeye()
+bucks = pygame.sprite.Group()
+bucks.add(b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25)
 # t = Touchdown()
 harbaugh = Player()
 
 
-sprites = RenderPlain(b, b2, b3, b4, b5, b6, b7, b8, b9, b10, harbaugh)
+sprites = RenderPlain(b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25, harbaugh)
 
 
 time.set_timer(USEREVENT + 1, DELAY)
@@ -160,164 +193,90 @@ while not gameExit:
 		# b9.move()
 		# b10.move()
 
-	if harbaugh.hit(b):
-		x_pos = 0
+	# if harbaugh.hit(bucks):
+	if len(pygame.sprite.spritecollide(harbaugh, bucks, False)) > 0:
+		# x_pos = 0
+		harbaugh.reset()
 		down+=1
+		# bucks.reset()
 		b.reset()
 		b2.reset()
 		b3.reset()
 		b4.reset()
 		b5.reset()
 		b6.reset()
+		b7.reset()
 		b8.reset()
 		b9.reset()
-		b10.reset()			
-		
-	if harbaugh.hit(b2):
-		down+=1
-		x_pos = 0
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
-
-	if harbaugh.hit(b3):
-		down+=1
-		x_pos = 0
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
-
-	if harbaugh.hit(b4):
-		down+=1
-		x_pos = 0
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
-
-	if harbaugh.hit(b5):
-		x_pos = 0
-		down+=1
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
-		
-	if harbaugh.hit(b6):
-		down+=1
-		x_pos = 0
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
-
-	if harbaugh.hit(b7):
-		down+=1
-		x_pos = 0
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
-
-	if harbaugh.hit(b8):
-		down+=1
-		x_pos = 0
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
-
-	if harbaugh.hit(b9):
-		down+=1
-		x_pos = 0
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
-
-	if harbaugh.hit(b10):
-		down+=1
-		x_pos = 0
-		b.reset()
-		b2.reset()
-		b3.reset()
-		b4.reset()
-		b5.reset()
-		b6.reset()
-		b8.reset()
-		b9.reset()
-		b10.reset()	
+		b10.reset()
+		b11.reset()
+		b12.reset()
+		b13.reset()
+		b14.reset()
+		b15.reset()
+		b16.reset()
+		b17.reset()
+		b18.reset()
+		b19.reset()
+		b20.reset()
+		b21.reset()
+		b22.reset()
+		b23.reset()
+		b24.reset()
+		b25.reset()
 
 
 	if e.type == pygame.KEYDOWN:
 		harbaugh.move()
 
 	if x_pos >= 1300:
-		x_pos = 0
+		harbaugh.reset()
 		pygame.mixer.music.load("michigan_fight_song.wav")
 		pygame.mixer.music.play(-1, 0.0)
 		score+=7
 		down = 0
 		time.set_timer(USEREVENT + 1, DELAY)
+		# bucks.reset()
 		b.reset()
 		b2.reset()
 		b3.reset()
 		b4.reset()
 		b5.reset()
 		b6.reset()
+		b7.reset()
 		b8.reset()
 		b9.reset()
 		b10.reset()	
+		b11.reset()
+		b12.reset()
+		b13.reset()
+		b14.reset()
+		b15.reset()
+		b16.reset()
+		b17.reset()
+		b18.reset()
+		b19.reset()
+		b20.reset()
+		b21.reset()
+		b22.reset()
+		b23.reset()
+		b24.reset()
+		b25.reset()
+
+	if down == 4:
+		r = random.choice([0,7])
+		oppscore+=r
 
 	gameDisplay.blit(bg, (bg_x, bg_y))
 
-	scoretext = gamefont.render("Player Score: " + str(score), False, [215, 209, 39])
-	gameDisplay.blit(scoretext, (565, 20))
+	scoretext = gamefont.render("UM Score: " + str(score), False, [215, 209, 39])
+	gameDisplay.blit(scoretext, (500, 20))
+
+	oppscoretext = gamefont.render("OSU Score: " + str(oppscore), False, [215, 209, 39])
+	gameDisplay.blit(oppscoretext, (650, 20))	
 
 	downtext = gamefont.render("Down: " + str(down), False, [215, 209, 39])
-	gameDisplay.blit(downtext, (715, 20))
+	gameDisplay.blit(downtext, (800, 20))
 
 	gameDisplay.blit(logo, (logo_x,logo_y))
 	gameDisplay.blit(logo2, (logo2_x,logo2_y))
@@ -344,7 +303,6 @@ while not gameExit:
 	# 	x_pos = 1259
 	# 	pygame.mixer.music.load("michigan_fight_song.wav")
 	# 	pygame.mixer.music.play(-1, 0.0)
-
 
 	sprites.update()
 	sprites.draw(gameDisplay)
