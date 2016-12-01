@@ -20,6 +20,7 @@ scoreX = 460
 scoreY = 0
 
 gamefont = font.Font(None, 25)
+gamefont2 = font.Font(None, 100)
 
 DELAY = 5000; 
 
@@ -41,16 +42,7 @@ class Buckeye(Sprite):
     	self.rect.center = (randX,randY)
     	pygame.mixer.music.load("michigan_fight_song.wav")
     	pygame.mixer.music.play(-1, 0.0)
-    	# scoretext = gamefont.render("Player Score: " + str(score), False, [215, 209, 39])
-    	# gameDisplay.blit(scoretext, (565, 20))
-    
 
-    # move gold to a new random location
-    # def move(self):
-    # 	randX = randint(130, 1270)
-    # 	randY = randint(10, 790)
-    # 	self.rect.center = (randX,randY)
-    	# self.rect.center = (randX - 10, randY - 10)
     def update(self):
     	x, y = self.rect.center
     	x, y = x - self.velocity, y
@@ -88,9 +80,6 @@ class Player(Sprite):
 			x_pos = 1375
 		self.rect.center = (x_pos, y_pos)
 
-	# def hit(self, target):
-	# 	return pygame.sprite.spritecollide(self, target, False)
-
 	def reset(self):
 		global x_pos
 		global y_pos
@@ -98,22 +87,12 @@ class Player(Sprite):
 		y_pos = 400
 		self.rect.center = (x_pos, y_pos)
 
-# class Touchdown(Sprite):
-# 	def __init__(self):
-# 		Sprite.__init__(self)
-# 		self.image = image.load('logo2.png').convert()
-# 		self.rect = self.image.get_rect()
-# 		self.rect.center = (1330, 395)
-
 
 #create a surface
 gameDisplay = pygame.display.set_mode((1400,800)) #initialize with a tuple
 
 #lets add a title, aka "caption"
 pygame.display.set_caption("Football")
-
-# def redraw():
-# 	gameDisplay.fill(white)
 
 pygame.display.update()		#only updates portion specified
 
@@ -126,7 +105,6 @@ down = 0
 
 
 bg = pygame.image.load(os.path.join('footballfield.png'))
-# harbaugh = pygame.image.load(os.path.join('harbaugh.png'))
 logo = pygame.image.load(os.path.join('logo.png'))
 logo2 = pygame.image.load(os.path.join('logo2.png'))
 scoreb = pygame.image.load(os.path.join('scoreb.png'))
@@ -158,7 +136,6 @@ b24 = Buckeye()
 b25 = Buckeye()
 bucks = pygame.sprite.Group()
 bucks.add(b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25)
-# t = Touchdown()
 harbaugh = Player()
 
 
@@ -170,33 +147,11 @@ time.set_timer(USEREVENT + 1, DELAY)
 
 gameExit = False
 while not gameExit:
-	# redraw()
 	e = event.poll()
-	# for event in pygame.event.get():
-	if e.type == QUIT:
-		gameExit = True
 
-
-	#if e.type == USEREVENT + 1:
-		# position1 = b.pos()
-		# b.move(position1)
-		# b.move()
-		# b2.move()
-		# b3.move()
-		# b4.move()
-		# b5.move()
-		# b6.move()
-		# b7.move()
-		# b8.move()
-		# b9.move()
-		# b10.move()
-
-	# if harbaugh.hit(bucks):
 	if len(pygame.sprite.spritecollide(harbaugh, bucks, False)) > 0:
-		# x_pos = 0
 		harbaugh.reset()
 		down+=1
-		# bucks.reset()
 		b.reset()
 		b2.reset()
 		b3.reset()
@@ -277,12 +232,20 @@ while not gameExit:
 
 	gameDisplay.blit(logo, (logo_x,logo_y))
 	gameDisplay.blit(logo2, (logo2_x,logo2_y))
-	if score >= 7:
-		win = gamefont.render("You Win!", False, [215, 209, 39])
-		gameDisplay.blit(win, (800, 300))
+
+	if score == 28:
+		win = gamefont2.render("You Win!", False, [0, 0, 0])
+		gameDisplay.blit(win, (550, 400))
+		display.update()	
 		pygame.time.wait(DELAY)
 		gameExit = True
 
+	if oppscore == 28:
+		lose = gamefont2.render("You Lose :(", False, [0, 0, 0])
+		gameDisplay.blit(lose, (500, 400))
+		display.update()	
+		pygame.time.wait(DELAY)
+		gameExit = True
 
 	if x_pos >= 27:
 		sprites.update()
