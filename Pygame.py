@@ -45,8 +45,8 @@ class Buckeye(Sprite):
     	randX = randint(130, 1270)
     	randY = randint(10, 790)
     	self.rect.center = (randX,randY)
-		scoretext = gamefont.render("Player Score: " + str(score), False, [215, 209, 39])
-		gameDisplay.blit(scoretext, (565, 20))
+    	scoretext = gamefont.render("Player Score: " + str(score), False, [215, 209, 39])
+    	gameDisplay.blit(scoretext, (565, 20))
     
 
     # move gold to a new random location
