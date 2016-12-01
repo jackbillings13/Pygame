@@ -6,24 +6,18 @@ import os
 
 pygame.init();
 
-WIDTH = 1260
-HEIGHT = 800
-#create colors
-white = (255,255,255)
-black = (0,0,0)
-red = (255, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 255)
 
 #position vars
-x_pos = 50
-y_pos = 200
+x_pos = 26
+y_pos = 400
 bg_x = 0
 bg_y = 0
 logo_x = 15
 logo_y = 15
 logo2_x = 1275
 logo2_y = 15
+scoreX = 460
+scoreY = 0
 
 gamefont = font.Font(None, 25)
 
@@ -36,15 +30,17 @@ class Buckeye(Sprite):
         self.rect = self.image.get_rect()
         self.velocity = randint(1, 3)
         randX = randint(200, 1400)
-        randY = randint(10, 790)
+        randY = randint(30, 790)
         self.rect.center = (randX,randY)
 
 
     def reset(self):
     	self.velocity = randint(1, 3)
     	randX = randint(200, 1400)
-    	randY = randint(10, 790)
+    	randY = randint(30, 790)
     	self.rect.center = (randX,randY)
+    	pygame.mixer.music.load("michigan_fight_song.wav")
+    	pygame.mixer.music.play(-1, 0.0)
     	# scoretext = gamefont.render("Player Score: " + str(score), False, [215, 209, 39])
     	# gameDisplay.blit(scoretext, (565, 20))
     
@@ -69,7 +65,7 @@ class Player(Sprite):
   		Sprite.__init__(self)
   		self.image = image.load('harbaugh.png').convert_alpha()
   		self.rect = self.image.get_rect()
-  		self.rect.center = (50, 200)
+  		self.rect.center = (26, 400)
 
 	def move(self):
 		global x_pos
@@ -98,8 +94,8 @@ class Player(Sprite):
 	def reset(self):
 		global x_pos
 		global y_pos
-		x_pos = 50
-		y_pos = 200
+		x_pos = 26
+		y_pos = 400
 		self.rect.center = (x_pos, y_pos)
 
 # class Touchdown(Sprite):
@@ -121,7 +117,7 @@ pygame.display.set_caption("Football")
 
 pygame.display.update()		#only updates portion specified
 
-pygame.mixer.music.load("crowd.wav")
+pygame.mixer.music.load("michigan_fight_song.wav")
 pygame.mixer.music.play(-1, 0.0)
 
 score = 0
@@ -133,6 +129,7 @@ bg = pygame.image.load(os.path.join('footballfield.png'))
 # harbaugh = pygame.image.load(os.path.join('harbaugh.png'))
 logo = pygame.image.load(os.path.join('logo.png'))
 logo2 = pygame.image.load(os.path.join('logo2.png'))
+scoreb = pygame.image.load(os.path.join('scoreb.png'))
 
 b = Buckeye()
 b2 = Buckeye()
@@ -178,6 +175,7 @@ while not gameExit:
 	# for event in pygame.event.get():
 	if e.type == QUIT:
 		gameExit = True
+
 
 	#if e.type == USEREVENT + 1:
 		# position1 = b.pos()
@@ -231,12 +229,10 @@ while not gameExit:
 
 	if x_pos >= 1300:
 		harbaugh.reset()
-		pygame.mixer.music.load("michigan_fight_song.wav")
-		pygame.mixer.music.play(-1, 0.0)
 		score+=7
+		r = choice([0,7])
 		down = 0
-		time.set_timer(USEREVENT + 1, DELAY)
-		# bucks.reset()
+		oppscore+=r		
 		b.reset()
 		b2.reset()
 		b3.reset()
@@ -264,49 +260,35 @@ while not gameExit:
 		b25.reset()
 
 	if down == 4:
-		r = random.choice([0,7])
+		r = choice([0,7])
+		down = 0
 		oppscore+=r
 
 	gameDisplay.blit(bg, (bg_x, bg_y))
-
+	gameDisplay.blit(scoreb, (scoreX,scoreY))
 	scoretext = gamefont.render("UM Score: " + str(score), False, [215, 209, 39])
-	gameDisplay.blit(scoretext, (500, 20))
+	gameDisplay.blit(scoretext, (500, 0))
 
 	oppscoretext = gamefont.render("OSU Score: " + str(oppscore), False, [215, 209, 39])
-	gameDisplay.blit(oppscoretext, (650, 20))	
+	gameDisplay.blit(oppscoretext, (650, 0))	
 
 	downtext = gamefont.render("Down: " + str(down), False, [215, 209, 39])
-	gameDisplay.blit(downtext, (800, 20))
+	gameDisplay.blit(downtext, (800, 0))
 
 	gameDisplay.blit(logo, (logo_x,logo_y))
 	gameDisplay.blit(logo2, (logo2_x,logo2_y))
+	if score >= 7:
+		win = gamefont.render("You Win!", False, [215, 209, 39])
+		gameDisplay.blit(win, (800, 300))
+		pygame.time.wait(DELAY)
+		gameExit = True
 
-	# gameDisplay.blit(buckeye, (x,y))
-	# gameDisplay.blit(buckeye, (x,y))
-	# gameDisplay.blit(buckeye, (x2,y2))
-	# gameDisplay.blit(buckeye, (x3,y3))
-	# gameDisplay.blit(buckeye, (x4,y4))
-	# gameDisplay.blit(buckeye, (x5,y5))
-	# gameDisplay.blit(buckeye, (x6,y6))
-	# gameDisplay.blit(buckeye, (x7,y7))
-	# gameDisplay.blit(buckeye, (x8,y8))
-	# gameDisplay.blit(buckeye, (x9,y9))
-	# gameDisplay.blit(buckeye, (x10,y10))
-	# gameDisplay.blit(buckeye, (x11,y11))
-	# gameDisplay.blit(buckeye, (x12,y12))
 
-	# gameDisplay.blit(harbaugh, (x_pos,y_pos))
-                
-		# if e.type == pygame.KEYDOWN:
-
-	# if x_pos>=WIDTH:
-	# 	x_pos = 1259
-	# 	pygame.mixer.music.load("michigan_fight_song.wav")
-	# 	pygame.mixer.music.play(-1, 0.0)
-
-	sprites.update()
+	if x_pos >= 27:
+		sprites.update()
 	sprites.draw(gameDisplay)
 	display.update()		
+
 
 
 
