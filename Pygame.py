@@ -134,12 +134,17 @@ b22 = Buckeye()
 b23 = Buckeye()
 b24 = Buckeye()
 b25 = Buckeye()
+b26 = Buckeye()
+b27 = Buckeye()
+b28 = Buckeye()
+b29 = Buckeye()
+b30 = Buckeye()
 bucks = pygame.sprite.Group()
-bucks.add(b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25)
+bucks.add(b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25, b26, b27, b28, b29, b30)
 harbaugh = Player()
 
 
-sprites = RenderPlain(b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25, harbaugh)
+sprites = RenderPlain(harbaugh, b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25, b26, b27, b28, b29, b30)
 
 
 time.set_timer(USEREVENT + 1, DELAY)
@@ -177,6 +182,11 @@ while not gameExit:
 		b23.reset()
 		b24.reset()
 		b25.reset()
+		b26.reset()
+		b27.reset()
+		b28.reset()
+		b29.reset()
+		b30.reset()
 
 
 	if e.type == pygame.KEYDOWN:
@@ -213,6 +223,11 @@ while not gameExit:
 		b23.reset()
 		b24.reset()
 		b25.reset()
+		b26.reset()
+		b27.reset()
+		b28.reset()
+		b29.reset()
+		b30.reset()
 
 	if down == 4:
 		r = choice([0,7])
@@ -239,6 +254,7 @@ while not gameExit:
 		display.update()	
 		pygame.time.wait(DELAY)
 		gameExit = True
+		break
 
 	if oppscore == 28:
 		lose = gamefont2.render("You Lose :(", False, [0, 0, 0])
@@ -246,6 +262,7 @@ while not gameExit:
 		display.update()	
 		pygame.time.wait(DELAY)
 		gameExit = True
+		break
 
 	if x_pos >= 27:
 		sprites.update()
