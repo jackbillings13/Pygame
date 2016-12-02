@@ -8,7 +8,7 @@ pygame.init();
 
 
 #position vars
-x_pos = 26
+x_pos = 50
 y_pos = 400
 bg_x = 0
 bg_y = 0
@@ -57,7 +57,7 @@ class Player(Sprite):
   		Sprite.__init__(self)
   		self.image = image.load('harbaugh.png').convert_alpha()
   		self.rect = self.image.get_rect()
-  		self.rect.center = (26, 400)
+  		self.rect.center = (50, 400)
 
 	def move(self):
 		global x_pos
@@ -83,7 +83,7 @@ class Player(Sprite):
 	def reset(self):
 		global x_pos
 		global y_pos
-		x_pos = 26
+		x_pos = 50
 		y_pos = 400
 		self.rect.center = (x_pos, y_pos)
 
@@ -145,9 +145,6 @@ harbaugh = Player()
 
 
 sprites = RenderPlain(harbaugh, b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25, b26, b27, b28, b29, b30)
-
-
-time.set_timer(USEREVENT + 1, DELAY)
 
 
 gameExit = False
@@ -257,14 +254,15 @@ while not gameExit:
 		break
 
 	if oppscore == 28:
-		lose = gamefont2.render("You Lose :(", False, [0, 0, 0])
-		gameDisplay.blit(lose, (500, 400))
-		display.update()	
-		pygame.time.wait(DELAY)
-		gameExit = True
-		break
+		if score != 28:
+			lose = gamefont2.render("You Lose :(", False, [0, 0, 0])
+			gameDisplay.blit(lose, (500, 400))
+			display.update()	
+			pygame.time.wait(DELAY)
+			gameExit = True
+			break
 
-	if x_pos >= 27:
+	if x_pos >= 125:
 		sprites.update()
 	sprites.draw(gameDisplay)
 	display.update()		
